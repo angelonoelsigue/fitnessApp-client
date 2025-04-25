@@ -39,7 +39,7 @@
 */
 
 .workout-container {
-  max-width: 800px;
+  max-width: 1000px; /* Increased width for better spacing */
   margin: auto;
   padding: 20px;
 }
@@ -63,12 +63,15 @@
   margin-top: 10px;
 }
 
+/* Adjust workout card size */
 .workout-card {
   background: #ffffff;
-  padding: 15px;
+  padding: 20px; /* Increased padding for better spacing */
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
+  width: 100%;
+  max-width: 400px; /* Larger card size */
 }
 
 .workout-card:hover {
@@ -80,3 +83,25 @@
   font-size: 1.2rem;
   color: #6c757d;
 }
+
+/* Center the workout cards */
+.workout-history {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to adjust on smaller screens */
+  gap: 20px; /* Adds spacing between cards */
+  justify-content: center; /* Centers the workout cards */
+}
+
+/* Updated button container */
+.btn-container {
+  display: flex;
+  flex-wrap: nowrap; /* Prevents wrapping, keeping buttons inline */
+  gap: 10px; /* Adds space between buttons */
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+

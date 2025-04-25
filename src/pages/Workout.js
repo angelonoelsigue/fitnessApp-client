@@ -210,27 +210,21 @@ export default function Workout() {
                 <Card.Text>
                   Status: {workout.status ? workout.status : "Pending"}
                 </Card.Text>
-                <Button 
-                  variant="warning" 
-                  onClick={() => openEditModal(workout)}
-                >
-                  Edit
-                </Button>
-                <Button 
-                  variant="danger" 
-                  className="ms-2" 
-                  onClick={() => deleteWorkout(workout._id)}
-                >
-                  Delete
-                </Button>
-                <Button 
-                  variant="success" 
-                  className="ms-2" 
-                  onClick={() => completeWorkout(workout._id)}
-                  disabled={workout.status === "completed"}
-                >
-                  {workout.status === "completed" ? "Completed" : "Complete"}
-                </Button>
+                <div className="btn-container">
+                  <Button variant="warning" onClick={() => openEditModal(workout)}>
+                    Edit
+                  </Button>
+                  <Button variant="danger" onClick={() => deleteWorkout(workout._id)}>
+                    Delete
+                  </Button>
+                  <Button
+                    variant="success"
+                    onClick={() => completeWorkout(workout._id)}
+                    disabled={workout.status === "completed"}
+                  >
+                    {workout.status === "completed" ? "Completed" : "Complete"}
+                  </Button>
+                </div>
               </Card.Body>
             </Card>
           </Col>
