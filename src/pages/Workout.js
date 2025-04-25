@@ -94,6 +94,29 @@ export default function Workout() {
     }
   };
 
+  // New function to mark a workout as completed
+  const completeWorkout = async (id) => {
+    try {
+      const res = await fetch(`https://fitnessapp-api-ln8u.onrender.com/workouts/completeWorkoutStatus/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        notyf.success("Workout marked as completed!");
+        // Refresh workouts list to reflect updated status
+        getWorkouts();
+      } else {
+        notyf.error(data.message || "Failed to mark workout as completed.");
+      }
+    } catch (error) {
+      console.error("Error completing workout:", error);
+      notyf.error("An unexpected error occurred.");
+    }
+  };
+
   const openEditModal = (workout) => {
     setCurrentWorkout(workout);
     setName(workout.name);
@@ -116,10 +139,9 @@ export default function Workout() {
 
       const data = await res.json();
       if (res.ok) {
-        // Fetch the latest workouts from the API to ensure everything is up to date
         getWorkouts();
         notyf.success("Workout updated successfully!");
-        setShowEditModal(false); // Close modal
+        setShowEditModal(false);
       } else {
         notyf.error("Failed to update workout.");
       }
@@ -146,18 +168,34 @@ export default function Workout() {
           <Form onSubmit={addWorkout}>
             <Form.Group>
               <Form.Label>Workout Name:</Form.Label>
-              <Form.Control type="text" required value={name} onChange={(e) => setName(e.target.value)} />
+              <Form.Control 
+                type="text" 
+                required 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label>Duration:</Form.Label>
-              <Form.Control type="text" required value={duration} onChange={(e) => setDuration(e.target.value)} />
+              <Form.Control 
+                type="text" 
+                required 
+                value={duration} 
+                onChange={(e) => setDuration(e.target.value)} 
+              />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">Save Workout</Button>
+            <Button variant="primary" type="submit" className="mt-3">
+              Save Workout
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>
 
-      <Button variant="secondary" className="mt-3 fetch-button" onClick={getWorkouts}>
+      <Button 
+        variant="secondary" 
+        className="mt-3 fetch-button" 
+        onClick={getWorkouts}
+      >
         Get Workouts
       </Button>
 
@@ -169,8 +207,30 @@ export default function Workout() {
               <Card.Body>
                 <Card.Title>{workout.name}</Card.Title>
                 <Card.Text>Duration: {workout.duration}</Card.Text>
-                <Button variant="warning" onClick={() => openEditModal(workout)}>Edit</Button>
-                <Button variant="danger" className="ms-2" onClick={() => deleteWorkout(workout._id)}>Delete</Button>
+                <Card.Text>
+                  Status: {workout.status ? workout.status : "Pending"}
+                </Card.Text>
+                <Button 
+                  variant="warning" 
+                  onClick={() => openEditModal(workout)}
+                >
+                  Edit
+                </Button>
+                <Button 
+                  variant="danger" 
+                  className="ms-2" 
+                  onClick={() => deleteWorkout(workout._id)}
+                >
+                  Delete
+                </Button>
+                <Button 
+                  variant="success" 
+                  className="ms-2" 
+                  onClick={() => completeWorkout(workout._id)}
+                  disabled={workout.status === "completed"}
+                >
+                  {workout.status === "completed" ? "Completed" : "Complete"}
+                </Button>
               </Card.Body>
             </Card>
           </Col>
@@ -186,13 +246,25 @@ export default function Workout() {
           <Form onSubmit={editWorkout}>
             <Form.Group>
               <Form.Label>Workout Name:</Form.Label>
-              <Form.Control type="text" required value={name} onChange={(e) => setName(e.target.value)} />
+              <Form.Control 
+                type="text" 
+                required 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label>Duration:</Form.Label>
-              <Form.Control type="text" required value={duration} onChange={(e) => setDuration(e.target.value)} />
+              <Form.Control 
+                type="text" 
+                required 
+                value={duration} 
+                onChange={(e) => setDuration(e.target.value)} 
+              />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">Save Changes</Button>
+            <Button variant="primary" type="submit" className="mt-3">
+              Save Changes
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>

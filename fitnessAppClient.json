@@ -1,5 +1,5 @@
 {
-	"url": "",
+	"url": "https://fitness-app-client-ten.vercel.app/",
 	"endpoints": {
 		"register": "/register",
 		"login": "/login",
